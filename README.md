@@ -65,6 +65,8 @@ npm run desktop:build
 
 The release workflow builds the installers on their respective operating systems. A version tag or a manual workflow run with a release tag publishes the resulting packages together.
 
+The desktop CSP permits inline styles because Angular and Monaco create styles at runtime. Tauri's automatic CSP modification is disabled only for `style-src`: adding style nonces or hashes would override `'unsafe-inline'` and block those runtime styles in the packaged app. Script CSP modification remains enabled.
+
 ## Checks
 
 ```sh
