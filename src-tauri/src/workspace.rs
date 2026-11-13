@@ -93,6 +93,9 @@ pub(crate) fn delete_file(s: State<Backend>, path: String) -> Result<(), String>
 #[cfg(test)]
 mod tests {
     use super::*;
+    use std::sync::atomic::AtomicU64;
+
+    static NEXT_PROJECT: AtomicU64 = AtomicU64::new(0);
     struct ProjectDirectory(PathBuf);
     impl Drop for ProjectDirectory {
         fn drop(&mut self) {
@@ -104,8 +107,9 @@ mod tests {
             .duration_since(std::time::UNIX_EPOCH)
             .unwrap()
             .as_nanos();
+        let sequence = NEXT_PROJECT.fetch_add(1, Ordering::Relaxed);
         let root = std::env::temp_dir().join(format!(
-            "microchris-project-{}-{unique}",
+            "microchris-project-{}-{unique}-{sequence}",
             std::process::id()
         ));
         fs::create_dir(&root).unwrap();
