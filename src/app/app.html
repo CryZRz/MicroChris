@@ -1,0 +1,42 @@
+<main data-theme="retro" class="ide">
+  <header>
+    <div class="brand">
+      <img
+        class="pixel-art"
+        ngSrc="art/c-logo.svg"
+        width="36"
+        height="36"
+        alt="Logo del lenguaje C en pixel art"
+        priority
+      /><strong>MicroChris</strong>
+    </div>
+    <div class="actions">
+      <button
+        class="btn btn-sm btn-ghost"
+        (click)="workspace.newProject()"
+        [disabled]="state.busy()"
+      >
+        Nuevo proyecto
+      </button>
+      <button
+        class="btn btn-sm btn-ghost"
+        (click)="workspace.openProject()"
+        [disabled]="state.busy()"
+      >
+        Abrir proyecto</button
+      ><button
+        class="btn btn-sm btn-ghost"
+        (click)="workspace.save()"
+        [disabled]="!workspace.root() || state.busy()"
+      >
+        Guardar todo
+      </button>
+    </div>
+  </header>
+  <app-toolbar />
+  <div class="workspace"><app-explorer /><app-editor-workspace /></div>
+  <footer>
+    <span [class.working]="state.busy()">● {{ state.status() }}</span
+    ><span>AVR ASM · {{ state.board() }} · {{ state.port() || 'Sin puerto' }}</span>
+  </footer>
+</main>

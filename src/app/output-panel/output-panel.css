@@ -1,0 +1,62 @@
+:host {
+  display: contents;
+}
+.console {
+  height: 210px;
+  min-height: 140px;
+  max-height: 65vh;
+  resize: vertical;
+  overflow: auto;
+  display: flex;
+  flex-direction: column;
+  border-top: 3px solid var(--color-base-300);
+  background: var(--color-base-100);
+}
+.console-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px 14px;
+  background: var(--color-base-200);
+  border-bottom: 2px solid var(--color-base-300);
+}
+pre {
+  white-space: pre-wrap;
+  overflow: auto;
+  padding: 12px 20px;
+  font:
+    18px/1.35 'VT323',
+    monospace;
+  flex: 1;
+  color: var(--color-accent);
+}
+.muted {
+  color: color-mix(in srgb, var(--color-base-content) 75%, transparent);
+}
+.serial-tools {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 14px;
+  flex-wrap: wrap;
+}
+.serial-tools input[type='number'] {
+  width: 100px;
+}
+.serial-tools .input {
+  min-width: 80px;
+}
+.diagnostic {
+  display: block;
+  text-align: left;
+  white-space: pre-wrap;
+  width: 100%;
+}
+.diagnostic:hover {
+  color: var(--color-primary);
+  text-decoration: underline;
+}
+.tab {
+  font-weight: 400;
+  font-size: 18px;
+}

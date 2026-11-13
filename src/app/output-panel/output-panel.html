@@ -1,0 +1,69 @@
+<section class="console" aria-label="Panel de ejecución">
+  <div class="console-head">
+    <div class="tabs tabs-sm" role="tablist" aria-label="Salida">
+      @for (p of ['compilacion', 'carga', 'serial']; track p) {
+        <button
+          role="tab"
+          class="tab"
+          [class.tab-active]="state.panel() === p"
+          [attr.aria-selected]="state.panel() === p"
+          (click)="state.panel.set(p)"
+        >
+          {{ p === 'compilacion' ? 'Compilación' : p === 'carga' ? 'Carga' : 'Monitor serial' }}
+        </button>
+      }
+    </div>
+    <button class="btn btn-xs btn-ghost" (click)="state.logs.set([]); monitor.serial.set('')">
+      Limpiar
+    </button>
+  </div>
+  @if (state.panel() === 'serial') {
+    <div class="serial-tools">
+      <label
+        >Baudios
+        <input
+          aria-label="Baudios"
+          type="number"
+          min="300"
+          class="input input-sm"
+          [value]="state.baud()"
+          (input)="state.baud.set(+$any($event.target).value)"
+          [disabled]="monitor.connected()" /></label
+      ><button
+        class="btn btn-xs btn-ghost"
+        (click)="monitor.toggleSerial()"
+        [disabled]="!state.port() || state.busy()"
+      >
+        {{ monitor.connected() ? 'Desconectar' : 'Conectar' }}</button
+      ><input
+        aria-label="Texto para enviar"
+        class="input input-sm"
+        [value]="monitor.send()"
+        (input)="monitor.send.set($any($event.target).value)"
+        (keydown.enter)="monitor.transmit()"
+      /><select
+        class="select select-sm"
+        aria-label="Terminador"
+        [value]="monitor.ending()"
+        (change)="monitor.ending.set($any($event.target).value)"
+      >
+        <option value="">Sin terminador</option>
+        <option value="&#10;">LF</option>
+        <option value="&#13;&#10;">CRLF</option></select
+      ><button
+        class="btn btn-xs btn-ghost"
+        (click)="monitor.transmit()"
+        [disabled]="!monitor.connected()"
+      >
+        Enviar
+      </button>
+    </div>
+    <pre>{{
+      monitor.serial() || 'Conecta el monitor para leer la salida UART de tu programa.'
+    }}</pre>
+  } @else {
+    <pre
+      aria-live="polite"
+    >@for(line of state.logs();track $index){@if(line.phase===state.panel()){<button class="diagnostic" (click)="workspace.diagnostic(line.text)">{{line.text}}</button>}}@if(!state.logs().length){<span class="muted">La salida de las herramientas aparecerá aquí.</span>}</pre>
+  }
+</section>

@@ -1,0 +1,56 @@
+<aside>
+  <div class="section-title">
+    Archivos
+    <button
+      class="btn btn-xs btn-ghost"
+      (click)="workspace.create()"
+      [disabled]="!workspace.root() || state.busy()"
+      aria-label="Crear archivo"
+    >
+      +
+    </button>
+  </div>
+  <p class="project-path">{{ workspace.root() || 'Sin proyecto abierto' }}</p>
+  @for (f of workspace.files(); track f.path) {
+    <button
+      class="file"
+      [class.selected]="workspace.active() === f.path"
+      [disabled]="f.directory || state.busy()"
+      (click)="workspace.openFile(f.path)"
+    >
+      {{ f.directory ? '▸' : '·' }} {{ f.path }}
+    </button>
+  }
+  @if (workspace.root()) {
+    <div class="project-tools">
+      <label
+        >Archivo principal<select
+          class="select select-sm"
+          [value]="workspace.main()"
+          (change)="workspace.main.set($any($event.target).value)"
+          [disabled]="state.busy()"
+        >
+          @for (f of workspace.files(); track f.path) {
+            @if (!f.directory) {
+              <option [value]="f.path">{{ f.path }}</option>
+            }
+          }
+        </select></label
+      ><button class="btn btn-sm btn-ghost" (click)="workspace.example()" [disabled]="state.busy()">
+        Crear ejemplo Blink</button
+      ><button
+        class="btn btn-xs btn-ghost"
+        (click)="workspace.rename()"
+        [disabled]="!workspace.current() || state.busy()"
+      >
+        Renombrar</button
+      ><button
+        class="btn btn-xs btn-ghost"
+        (click)="workspace.remove()"
+        [disabled]="!workspace.current() || state.busy()"
+      >
+        Eliminar archivo
+      </button>
+    </div>
+  }
+</aside>

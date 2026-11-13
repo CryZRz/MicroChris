@@ -1,0 +1,37 @@
+<section class="content">
+  <div class="tabs tabs-border" role="tablist" aria-label="Archivos abiertos">
+    @for (t of workspace.tabs(); track t.path) {
+      <button
+        class="tab"
+        role="tab"
+        [attr.aria-selected]="workspace.active() === t.path"
+        [class.tab-active]="workspace.active() === t.path"
+        (click)="workspace.active.set(t.path)"
+      >
+        {{ t.path }}{{ t.text !== t.saved ? ' •' : '' }}</button
+      ><button
+        class="btn btn-xs btn-ghost"
+        [attr.aria-label]="'Cerrar ' + t.path"
+        (click)="workspace.closeTab(t.path)"
+      >
+        ×
+      </button>
+    }
+  </div>
+  <div class="editor">
+    @if (workspace.current(); as t) {
+      <app-editor
+        [text]="t.text"
+        [path]="t.path"
+        [line]="workspace.targetLine()"
+        (changed)="workspace.edit($event)"
+      />
+    } @else {
+      <div class="welcome">
+        <h1>MicroChris</h1>
+        <button class="btn" (click)="workspace.openProject()">Abrir proyecto</button>
+      </div>
+    }
+  </div>
+  <app-output-panel />
+</section>

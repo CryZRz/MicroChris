@@ -1,0 +1,63 @@
+:host {
+  display: flex;
+  flex: 1;
+  min-width: 0;
+}
+.content {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  min-width: 0;
+  width: 100%;
+}
+.content > .tabs {
+  padding: 4px 12px;
+  min-height: 40px;
+  background: var(--color-base-200);
+  border-bottom: 2px solid var(--color-base-300);
+  gap: 4px;
+}
+.tab {
+  font-weight: 400;
+  font-size: 18px;
+}
+.editor {
+  flex: 1;
+  min-height: 140px;
+}
+app-editor {
+  display: block;
+  height: 100%;
+}
+.welcome {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 14px;
+  padding: 24px;
+  text-align: center;
+  background-image: radial-gradient(var(--color-base-300) 1px, transparent 1px);
+  background-size: 16px 16px;
+}
+.welcome h1 {
+  font-size: clamp(28px, 3vw, 40px);
+  font-weight: 400;
+  line-height: 1.1;
+  color: var(--color-primary);
+  background: var(--color-base-100);
+  padding: 0 8px;
+}
+.welcome .btn {
+  margin-top: 6px;
+}
+@media (max-height: 780px) {
+  .welcome {
+    gap: 8px;
+    padding: 12px;
+  }
+  .welcome h1 {
+    font-size: 30px;
+  }
+}

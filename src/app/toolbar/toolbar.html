@@ -1,0 +1,49 @@
+<nav aria-label="Herramientas" class="toolbar">
+  <label
+    >Placa
+    <select
+      class="select select-sm"
+      [value]="state.board()"
+      (change)="state.board.set($any($event.target).value)"
+      [disabled]="state.busy() || monitor.connected()"
+    >
+      @for (b of state.boards; track b.id) {
+        <option [value]="b.id">{{ b.name }}</option>
+      }
+    </select></label
+  ><label
+    >Puerto
+    <select
+      class="select select-sm"
+      [value]="state.port()"
+      (change)="state.port.set($any($event.target).value)"
+      [disabled]="state.busy() || monitor.connected()"
+    >
+      <option value="">Selecciona puerto</option>
+      @for (p of state.ports(); track p) {
+        <option [value]="p">{{ p }}</option>
+      }
+    </select></label
+  ><button
+    class="btn btn-sm btn-ghost"
+    aria-label="Actualizar puertos"
+    (click)="monitor.refreshPorts()"
+    [disabled]="state.busy()"
+  >
+    ↻
+  </button>
+  <div class="spacer"></div>
+  <button
+    class="btn btn-sm btn-ghost"
+    [disabled]="!workspace.root() || state.busy()"
+    (click)="build.compile(false)"
+  >
+    Compilar</button
+  ><button
+    class="btn btn-sm btn-primary"
+    [disabled]="!workspace.root() || !state.port() || state.busy()"
+    (click)="build.compile(true)"
+  >
+    Compilar y subir
+  </button>
+</nav>
